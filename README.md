@@ -8,9 +8,33 @@ acme-companion is a lightweight companion container for nginx-proxy.
 
 It handles the automated creation, renewal and use of SSL certificates for proxied Docker containers through the ACME protocol.
 
+## How to use (after cloning this repo)
+### 1. Create the docker network
+```
+docker network create reverse-proxy
+```
+### 2. Run docker compose command to create nginx-proxy and acme-companion containers
+```
+docker-compose up -d
+```
+### 3. (Optional) To check logs, run docker exec command
+- nginx-proxy
+  ```
+  docker logs -f nginx-proxy
+  ```
+- acme-companion
+  ```
+  docker logs -f acme-companion
+  ```
+
+## Expose Port (nginx-proxy)
+- 80
+- 443
+- IPV6 support ready
+
 
 ## Testing
-### 1. Create docker.compose.yml
+### 1. On your website directory, create docker.compose.yml
 ```yaml
 services:
   test-website:
@@ -34,11 +58,6 @@ docker-compose up -d
 ```
 ### 3. Wait up till 5 minutes, then visit your domain
 The created test-website should automatically have SSL certificate and it's own nginx server configurations
-
-## Expose Port (nginx-proxy)
-- 80
-- 443
-- IPV6 support ready
 
 ### References
 - https://hub.docker.com/r/nginxproxy/nginx-proxy
