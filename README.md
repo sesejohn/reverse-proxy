@@ -1,9 +1,15 @@
 # Reverse Proxy
+<div align="center">
+  <img src="https://olex.biz/2019/09/hosting-with-docker-nginx-reverse-proxy-letsencrypt/proxy-diagram-large.png" />
+</div>
+<div align="center">
+   Credits to @olexs
+</div>
 
 ## nginx-proxy
 Sets up a container running nginx and docker-gen ([previously created separately](http://jasonwilder.com/blog/2014/03/25/automated-nginx-reverse-proxy-for-docker/)). docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped.
 
-## acme-companion
+## acme-companion (Let's Encrypt SSL Companion)
 acme-companion is a lightweight companion container for nginx-proxy.
 
 It handles the automated creation, renewal and use of SSL certificates for proxied Docker containers through the ACME protocol.
