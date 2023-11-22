@@ -7,11 +7,11 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - certs:/etc/nginx/certs:ro
-      - conf:/etc/nginx/conf.d
-      - dhparam:/etc/nginx/dhparam
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
+      - ./certs:/etc/nginx/certs:ro
+      - ./conf:/etc/nginx/conf.d
+      - ./dhparam:/etc/nginx/dhparam
+      - ./html:/usr/share/nginx/html
+      - ./vhost:/etc/nginx/vhost.d
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
       - ENABLE_IPV6=true
@@ -21,27 +21,20 @@ services:
   acme-companion:
     image: nginxproxy/acme-companion
     container_name: acme-companion
-    depends_on: 
-      - nginx-proxy
+    restart: always
     volumes_from:
       - nginx-proxy
     volumes:
-      - acme:/etc/acme.sh
-      - certs:/etc/nginx/certs:rw
+      - ./acme:/etc/acme.sh
+      - ./certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       - DEFAULT_EMAIL=test@email.com # @TODO: your email to be used
+    depends_on:
+      - nginx-proxy
     networks:
       - reverse-proxy # @TODO: need to create external network `docker network create reverse-proxy`
       
-volumes:
-  conf: {}
-  vhost: {}
-  html: {}
-  dhparam: {}
-  certs: {}
-  acme: {}
-    
 networks:
   reverse-proxy:
     external: true
